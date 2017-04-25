@@ -3,7 +3,7 @@ function ButtonGroup(buttonWidth, verticalPadding, hoverColor) {
     var buttonGroupContainer = new createjs.Container();
     var buttonCount = 0;
 
-    this.addButton = function (textImage, outlineColor) {
+    this.addButton = function (textImage, outlineColor, eventFunction) {
         // Create button outline
         var buttonOutline = new createjs.Shape();
         buttonOutline.graphics.setStrokeStyle(5);
@@ -24,6 +24,7 @@ function ButtonGroup(buttonWidth, verticalPadding, hoverColor) {
             event.target.graphics.setStrokeStyle(5);
             event.target.graphics.beginStroke(outlineColor).drawRect(0, 0, buttonWidth, textImage.height + verticalPadding);
         });
+        buttonOutline.on("click", eventFunction);
 
         // Create button
         var buttonContainer = new createjs.Container();
@@ -62,3 +63,5 @@ function ButtonGroup(buttonWidth, verticalPadding, hoverColor) {
         return buttonGroupContainer;
     }
 }
+
+

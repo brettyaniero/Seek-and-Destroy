@@ -34,10 +34,9 @@ function load() {
 function init() {
     canvas = document.getElementById("canvas");
     stage = new createjs.Stage(canvas);
-    stage.enableMouseOver(10);
+    stage.enableMouseOver();
     createjs.Ticker.setFPS(60);
     createjs.Ticker.addEventListener("tick", run);
-    createjs.Ticker.addEventListener(stage);
     buildStartMenu();
 }
 
@@ -71,9 +70,9 @@ function buildStartMenu() {
     title_image.y = 0.03 * stage.canvas.height;
 
     var buttonGroup = new ButtonGroup(instructions_button.width + 30, 30, "#21ba2b");
-    buttonGroup.addButton(play_button, "#21ba2b");
-    buttonGroup.addButton(instructions_button, "#21ba2b");
-    buttonGroup.addButton(store_button, "#21ba2b");
+    buttonGroup.addButton(play_button, "#21ba2b", handlePlayEvent);
+    buttonGroup.addButton(instructions_button, "#21ba2b", handleInstructionsEvent);
+    buttonGroup.addButton(store_button, "#21ba2b", handleStoreEvent);
     buttonGroup.setScale(0.55);
     buttonGroup.setXPosition(stage.canvas.width / 2);
     buttonGroup.setYPosition(415);
@@ -164,4 +163,16 @@ function updateSpotlightXY(startPt, endPt, percent) {
             y: spotlightStartPt.y
         });
     }
+}
+
+function handlePlayEvent() {
+    startMenu.setVisible(false);
+}
+
+function handleInstructionsEvent() {
+
+}
+
+function handleStoreEvent() {
+
 }
