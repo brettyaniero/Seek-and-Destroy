@@ -1,5 +1,7 @@
 
-var preloader, canvas, stage;
+var preloader;
+var canvas;
+var stage;
 
 var GameStates = {
     MAIN_MENU: 0
@@ -167,6 +169,7 @@ function updateSpotlightXY(startPt, endPt, percent) {
 
 function handlePlayEvent() {
     startMenu.setVisible(false);
+    generateMaze(7, 6, 39);
 }
 
 function handleInstructionsEvent() {
