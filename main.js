@@ -169,6 +169,9 @@ function updateSpotlightXY(startPt, endPt, percent) {
 
 function handlePlayEvent() {
     startMenu.setVisible(false);
+    var background = new createjs.Shape();
+    background.graphics.beginFill("#2AF620").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
+    stage.addChild(background);
     generateMaze(7, 6, 39);
 }
 

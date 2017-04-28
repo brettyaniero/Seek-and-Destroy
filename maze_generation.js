@@ -11,7 +11,7 @@ function generateMaze(width, height, startUnit) {
     // Metrics to be used in algorithm calculations
     var unitWidth = stage.canvas.width / width;
     var unitHeight = stage.canvas.height / height;
-    var uncheckedUnits = width * height;
+    var uncheckedUnits = width * height - 1
 
     // Container to store the path shape objects that are created
     var pathContainer = new createjs.Container();
@@ -28,7 +28,10 @@ function generateMaze(width, height, startUnit) {
     gridStack.push(startUnit);
 
     while (uncheckedUnits > 0) {
+        alert(currentUnit);
         var openPaths = [];
+        var row = (currentUnit > width) ? Math.floor(currentUnit / height) : 1;
+        var column = (currentUnit % width != 0) ? currentUnit % width : width;
 
         // Check unit to left (if there is one)
         if (currentUnit > 1 && ((currentUnit - 1) % 7) != 0) {
@@ -46,7 +49,7 @@ function generateMaze(width, height, startUnit) {
                 openPaths.push(currentUnit - width);
         }
         // Check unit below (if there is one)
-        if ((currentUnit + width) < width * height) {
+        if ((currentUnit + width) <= width * height) {
             if (visitedUnits.indexOf(currentUnit + width) < 0)
                 openPaths.push(currentUnit + width);
         }
@@ -56,6 +59,7 @@ function generateMaze(width, height, startUnit) {
 
         if (paths > 0) {
             visitedUnits.push(currentUnit);
+            gridStack.push(currentUnit);
 
             // Choose random index of path
             var index = Math.floor(Math.random() * paths);
@@ -64,16 +68,12 @@ function generateMaze(width, height, startUnit) {
             currentUnit = openPaths[index];
 
             uncheckedUnits -= 1;
-            gridStack.push(openPaths[index]);
         }
         // If there are no available paths, pop a value off the stack
         // and continue the loop
         else {
+            visitedUnits.push(currentUnit);
             currentUnit = gridStack.pop();
-
-            continue;
         }
     }
-
-    alert("Visited units: " + visitedUnits.length);
 }
