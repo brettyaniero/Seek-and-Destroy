@@ -29,7 +29,8 @@ function load() {
         { id: "map", src: "Assets/map.jpg" },
         { id: "crosshairs", src: "Assets/crosshairs.png" }, 
         { id: "mist", src: "Assets/mist.png" }, 
-        { id: "menu_music", src: "Assets/menu_music.mp3"}
+        { id: "menu_music", src: "Assets/menu_music.mp3" },
+        { id: "brick", src: "Assets/brick.jpg"}
     ]);
 }
 
@@ -172,7 +173,7 @@ function handlePlayEvent() {
     var background = new createjs.Shape();
     background.graphics.beginFill("#2AF620").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
     stage.addChild(background);
-    generateMaze(7, 6, 39);
+    generateMaze(9, 8, 50);
 }
 
 function handleInstructionsEvent() {

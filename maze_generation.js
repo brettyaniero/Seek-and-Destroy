@@ -31,9 +31,11 @@ function generateMaze(width, height, startUnit) {
     var startRow = (currentUnit > width) ? Math.ceil(currentUnit / width) - 1: 0;
     var startColumn = (currentUnit % width != 0) ? currentUnit % width  - 1: width - 1;
     var startSquare = new createjs.Shape();
-    startSquare.graphics.beginStroke("black").beginFill("black").drawRect(0, 0, unitWidth, unitHeight);
-    startSquare.x = startColumn * unitWidth;
-    startSquare.y = startRow * unitHeight;
+    startSquare.graphics.beginStroke("black").beginFill("black").drawRect(0, 0, 2 / 3 * unitWidth, 2/3 * unitHeight);
+    startSquare.regX = (2 / 3 * unitWidth) / 2;
+    startSquare.regY = (2 / 3 * unitHeight) / 2;
+    startSquare.x = startColumn * unitWidth + unitWidth / 2;
+    startSquare.y = startRow * unitHeight + unitHeight / 2;
     pathContainer.addChild(startSquare);
 
     gridStack.push(startUnit);
@@ -41,10 +43,10 @@ function generateMaze(width, height, startUnit) {
     while (uncheckedUnits > 0) {
         var openPaths = [];
         var row = (currentUnit > width) ? Math.ceil(currentUnit / width)  - 1: 0;
-        var column = (currentUnit % width != 0) ? currentUnit % width - 1: width - 1;
+        var column = (currentUnit % width != 0) ? currentUnit % width - 1 : width - 1;
 
         // Check unit to left (if there is one)
-        if (currentUnit > 1 && ((currentUnit - 1) % 7) != 0) {
+        if (currentUnit > 1 && ((currentUnit - 1) % width) != 0) {
             if (visitedUnits.indexOf(currentUnit - 1) < 0)
                 openPaths.push(currentUnit - 1);
         }
@@ -75,6 +77,7 @@ function generateMaze(width, height, startUnit) {
             var index = Math.floor(Math.random() * paths);
 
             // Change current unit to the new unit
+            var temp = currentUnit;
             currentUnit = openPaths[index];
             var newRow = (currentUnit > width) ? Math.ceil(currentUnit / width) - 1 : 0;
             var newColumn = (currentUnit % width != 0) ? currentUnit % width - 1 : width - 1;
@@ -84,7 +87,7 @@ function generateMaze(width, height, startUnit) {
             // Check if position has moved horizontally
             if (newColumn != column) {
                 // Check if position has moved to the left
-                if (column - newColumn === 1) {
+                if (newColumn - column === -1) {
                     path.graphics.beginStroke("black").beginFill("black").drawRect(0, 0, unitWidth, 2 / 3 * unitHeight);
                     path.regY = (2 / 3 * unitHeight) / 2;
                     path.y = newRow * unitHeight + unitHeight / 2;
@@ -92,7 +95,7 @@ function generateMaze(width, height, startUnit) {
                     pathContainer.addChild(path);
                 }
                 // Check if position has moved to the right
-                else if (column - newColumn === -1) {
+                else if (newColumn - column === 1) {
                     path.graphics.beginStroke("black").beginFill("black").drawRect(0, 0, unitWidth, 2 / 3 * unitHeight);
                     path.regY = (2 / 3 * unitHeight) / 2;
                     path.y = newRow * unitHeight + unitHeight / 2;
@@ -102,18 +105,17 @@ function generateMaze(width, height, startUnit) {
             }
             // Check if position has moved vertically
             else if (newRow != row) {
-                 // Check if position has moved up
+                // Check if position has moved up
                 if (newRow - row === -1) {
                     path.graphics.beginStroke("black").beginFill("black").drawRect(0, 0, unitWidth * 2 / 3, unitHeight);
                     path.regX = (unitWidth * 2 / 3) / 2;
                     path.x = newColumn * unitWidth + unitWidth / 2;
-                    path.y = newRow * unitHeight + (2/3 * unitHeight) / 4;
+                    path.y = newRow * unitHeight + (2 / 3 * unitHeight) / 4;
                     pathContainer.addChild(path);
                 }
                 // Check if position has moved down
                 else if (newRow - row === 1) {
                     path.graphics.beginStroke("black").beginFill("black").drawRect(0, 0, unitWidth * 2 / 3, unitHeight);
-                    
                     path.regX = (unitWidth * 2 / 3) / 2;
                     path.x = newColumn * unitWidth + unitWidth / 2;
                     path.y = row * unitHeight + (2 / 3 * unitHeight) + (2 / 3 * unitHeight) / 4;
@@ -130,6 +132,5 @@ function generateMaze(width, height, startUnit) {
             currentUnit = gridStack.pop();
         }
     }
-
     stage.addChild(pathContainer);
 }
