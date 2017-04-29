@@ -3,8 +3,9 @@
  * Generates a maze made up of rectangle shapes using a recursive
  * backtracker algorithm.
  * 
- * @param {any} width  how wide the grid should be 
- * @param {any} height how high the grid should be
+ * @param {any} width     how wide the grid should be 
+ * @param {any} height    how high the grid should be
+ * @param {any} startUnit where the algorithm should start the maze
  */
 
 function generateMaze(width, height, startUnit) {
@@ -41,7 +42,6 @@ function generateMaze(width, height, startUnit) {
         var openPaths = [];
         var row = (currentUnit > width) ? Math.ceil(currentUnit / width)  - 1: 0;
         var column = (currentUnit % width != 0) ? currentUnit % width - 1: width - 1;
-        // alert("Row: " + row + "\nColumn: " + column);
 
         // Check unit to left (if there is one)
         if (currentUnit > 1 && ((currentUnit - 1) % 7) != 0) {
