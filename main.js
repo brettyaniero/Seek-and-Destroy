@@ -16,6 +16,7 @@ var spotlightPercent = 0;
 var spotlightStartPt;
 var spotlightEndPt;
 var crosshairsImage;
+var instructionsMenu
 
 var spotlightRadius;
 
@@ -122,6 +123,7 @@ function build_Instructions() {
     instructionsGroup.setYPosition(600);
 
     instructionsMenu = new Menu();
+    
     //storeMenu.playMusic("menu_music");
     instructionsMenu.addElement(title_image);
     instructionsMenu.addElement(instructionsGroup.getContainer());
@@ -273,29 +275,12 @@ function handlePlayEvent() {
     enemyTank.mask = spotlight;
 
     gameUI.setVisible(true);
+    instructionsMenu.setVisible(false);
+    
+    
 }
 
-function build_Instructions() {
-    var title = preloader.getResult("instructions_button");
-    var title_image = new createjs.Bitmap(title);
-    title_image.scaleX = 1;
-    title_image.scaleY = 1;
-    title_image.x = 175;
 
-    var play_button = preloader.getResult("play_button");
-
-    var instructionsGroup = new ButtonGroup(play_button.width + 30, 30, "#21ba2b");
-    instructionsGroup.addButton(play_button, "#21ba2b", handlePlayEvent);
-    instructionsGroup.setScale(0.55);
-    instructionsGroup.setXPosition(stage.canvas.width / 2);
-    instructionsGroup.setYPosition(600);
-
-    instructionsMenu = new Menu();
-    //storeMenu.playMusic("menu_music");
-    instructionsMenu.addElement(title_image);
-    instructionsMenu.addElement(instructionsGroup.getContainer());
-    instructionsMenu.setVisible(true);
-}
 
 function handleInstructionsEvent() {
     startMenu.setVisible(false);
