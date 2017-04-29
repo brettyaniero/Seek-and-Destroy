@@ -30,7 +30,8 @@ function load() {
         { id: "crosshairs", src: "Assets/crosshairs.png" }, 
         { id: "mist", src: "Assets/mist.png" }, 
         { id: "menu_music", src: "Assets/menu_music.mp3" },
-        { id: "brick", src: "Assets/brick.jpg"}
+        { id: "brick", src: "Assets/brick.jpg" },
+        { id: "enemy", src: "Assets/enemy.png" }
     ]);
 }
 
@@ -174,6 +175,7 @@ function handlePlayEvent() {
     background.graphics.beginFill("#2AF620").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
     stage.addChild(background);
     generateMaze(9, 8, 50);
+    randomizeEnemyTank(9, 8);
 }
 
 function handleInstructionsEvent() {
