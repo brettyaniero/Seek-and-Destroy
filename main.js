@@ -17,6 +17,14 @@ var spotlightStartPt;
 var spotlightEndPt;
 var crosshairsImage;
 
+var spotlightRadius;
+
+var gameUI;
+var enemyTank;
+var playerTank;
+
+var pathContainer;
+
 function load() {
     preloader = new createjs.LoadQueue(false);
     preloader.installPlugin(createjs.Sound);
@@ -34,7 +42,8 @@ function load() {
         { id: "stopwatch", src: "Assets/stopwatch.png" },
         { id: "speed_arrow", src: "Assets/arrow.png" },
         { id: "big_spotlight", src: "Assets/big_spotlight.png" },
-        { id: "enemy", src: "Assets/enemy.png" }
+        { id: "enemy", src: "Assets/enemy.png" }, 
+        { id: "player", src: "Assets/player.png"}
     ]);
 }
 
@@ -45,6 +54,8 @@ function init() {
     createjs.Ticker.setFPS(60);
     createjs.Ticker.addEventListener("tick", run);
     buildStartMenu();
+    gameUI = new Menu();
+    spotlightRadius = 80;
 }
 
 function buildStartMenu() {
@@ -224,15 +235,51 @@ function updateSpotlightXY(startPt, endPt, percent) {
 
 function handlePlayEvent() {
     startMenu.setVisible(false);
+
     var background = new createjs.Shape();
     background.graphics.beginFill("#2AF620").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
-    stage.addChild(background);
-    generateMaze(9, 8, 50);
-    randomizeEnemyTank(9, 8);
+    gameUI.addElement(background);
+    generateMaze(7, 6, 1);
+    spawnTanks(7, 6, 1);
+
+    var spotlight = new createjs.Shape();
+    spotlight.graphics.beginFill("#FFFFFF").drawCircle(0, 0, spotlightRadius);
+    spotlight.x = playerTank.x;
+    spotlight.y = playerTank.y;
+    spotlight.alpha = 0;
+    gameUI.addElement(spotlight);
+    pathContainer.mask = spotlight;
+    background.mask = spotlight;
+    enemyTank.mask = spotlight;
+
+    gameUI.setVisible(true);
+}
+
+function build_Instructions() {
+    var title = preloader.getResult("instructions_button");
+    var title_image = new createjs.Bitmap(title);
+    title_image.scaleX = 1;
+    title_image.scaleY = 1;
+    title_image.x = 175;
+
+    var play_button = preloader.getResult("play_button");
+
+    var instructionsGroup = new ButtonGroup(play_button.width + 30, 30, "#21ba2b");
+    instructionsGroup.addButton(play_button, "#21ba2b", handlePlayEvent);
+    instructionsGroup.setScale(0.55);
+    instructionsGroup.setXPosition(stage.canvas.width / 2);
+    instructionsGroup.setYPosition(600);
+
+    instructionsMenu = new Menu();
+    //storeMenu.playMusic("menu_music");
+    instructionsMenu.addElement(title_image);
+    instructionsMenu.addElement(instructionsGroup.getContainer());
+    instructionsMenu.setVisible(true);
 }
 
 function handleInstructionsEvent() {
-
+    startMenu.setVisible(false);
+    build_Instructions();
 }
 
 function handleStoreEvent() {

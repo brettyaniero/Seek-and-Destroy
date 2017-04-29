@@ -15,7 +15,7 @@ function generateMaze(width, height, startUnit) {
     var uncheckedUnits = width * height - 1;
 
     // Container to store the path shape objects that are created
-    var pathContainer = new createjs.Container();
+    pathContainer = new createjs.Container();
 
     // The stack to be used for storing points as the algorithm
     // generates the maze
@@ -132,5 +132,6 @@ function generateMaze(width, height, startUnit) {
             currentUnit = gridStack.pop();
         }
     }
-    stage.addChild(pathContainer);
+
+    gameUI.addElement(pathContainer);
 }
