@@ -129,55 +129,7 @@ function build_Instructions() {
     instructionsMenu.addElement(instructionsGroup.getContainer());
     instructionsMenu.setVisible(true);
 }
-function build_StoreMenu() {
 
-    var title = preloader.getResult("store_button");
-    var title_image = new createjs.Bitmap(title);
-    title_image.scaleX = 1;
-    title_image.scaleY = 1;
-    title_image.x = 375;
-
-    var watch = preloader.getResult("stopwatch");
-    var watch_image = new createjs.Bitmap(watch);
-    watch_image.scaleX = 0.3;
-    watch_image.scaleY = 0.3;
-    watch_image.y = 125;
-    watch_image.x = 25;
-
-
-    var arrow = preloader.getResult("speed_arrow");
-    var arrow_image = new createjs.Bitmap(arrow);
-    arrow_image.scaleX = 0.2;
-    arrow_image.scaleY = 0.2;
-    arrow_image.y = 300;
-    arrow_image.x = 25;
-
-    var big_spot = preloader.getResult("big_spotlight");
-    var spot_image = new createjs.Bitmap(big_spot);
-    spot_image.scaleX = 0.7;
-    spot_image.scaleY = 0.7;
-    spot_image.y = 450;
-    spot_image.x = 25;
-
-    var play_button = preloader.getResult("play_button");
-
-    var storeGroup = new ButtonGroup(play_button.width + 30, 30, "#21ba2b");
-    storeGroup.addButton(play_button, "#21ba2b", handlePlayEvent);
-    storeGroup.setScale(0.55);
-    storeGroup.setXPosition(stage.canvas.width / 2);
-    storeGroup.setYPosition(600);
-
-
-    storeMenu = new Menu();
-    //storeMenu.playMusic("menu_music");
-    storeMenu.addElement(title_image);
-    storeMenu.addElement(watch_image);
-    storeMenu.addElement(arrow_image);
-    storeMenu.addElement(spot_image);
-    storeMenu.addElement(storeGroup.getContainer());
-
-    storeMenu.setVisible(true);
-}
 
 function initSpotlight() {
     var graphics = new createjs.Graphics();
