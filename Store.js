@@ -5,6 +5,8 @@ var storeMenu;
 
 function build_StoreMenu() {
 
+
+
     var title = preloader.getResult("store_button");
     var title_image = new createjs.Bitmap(title);
     title_image.scaleX = 1;
@@ -79,7 +81,13 @@ function build_StoreMenu() {
     description3.textAlign = "left";
     description3.x = 185;
     description3.y = 480;
-
+    /*
+    scoretext = new createjs.Text("Score:" + score, "18px courier", "white");
+    scoretext.textAlign = "left";
+    scoretext.x = 185;
+    scoretext.y = 150;
+    storeMenu.addElement(scoretext);
+    */
     storeMenu = new Menu();
     //storeMenu.playMusic("menu_music");
     storeMenu.addElement(title_image);
@@ -101,22 +109,22 @@ function build_StoreMenu() {
 function handleTimeBonusEvent() {
     if( score >= 1)
         timePerLevel += 10
-    score -= 1;
+    score -= 5;
    // else()
 }
 
 function handleSpeedBonusEvent() {
     if( score >= 1)
-        TANK_SPEED = 3;
-    ROTATION_SPEED = 3;
-    score -= 1;
+        TANK_SPEED += 2;
+    ROTATION_SPEED += 2;
+    score -= 2;
    // else()
 }
 
 function handleFlashlightBonusEvent() {
     if (score >= 1)
-        spotlightRadius = 120;
-    score -= 1;
+        spotlightRadius += 100;
+    score -= 3;
    // else()
 }
 
