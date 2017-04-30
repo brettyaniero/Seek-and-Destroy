@@ -39,7 +39,7 @@ var pathContainer;
 var startTime;
 var timerText;
 var timerRefreshIntervalID;
-var timePerLevel = 30;
+var timePerLevel = 3;
 var gameOverTextRefreshIntervalID;
 var endMenu;
 var winMenu;
@@ -355,8 +355,7 @@ function startTimer(duration) {
 //Game Over
 
 function gameOver() {
-    createjs.Sound.stop("game_soundtrack1");
-    createjs.Sound.play("game_over");
+   
    
     endMenu = new Menu();
     var gameOverText = new createjs.Text("GAME OVER", "bold 36px Arial", "white");
@@ -380,13 +379,22 @@ function gameOver() {
     }
     endMenu.setVisible(true);
     
-    var menu_button = preloader.getResult("menu_button");
-    var instructionsGroup = new ButtonGroup(menu_button.width + 30, 30, "#21ba2b", 150);
-    instructionsGroup.addButton(menu_button, "#21ba2b", handleMenuEvent);
+    
+    var play_button = preloader.getResult("play_button")
+    var instructionsGroup = new ButtonGroup(play_button.width + 30, 30, "#21ba2b", 150);
+    instructionsGroup.addButton(play_button, "#21ba2b", handlePlayEvent);
     instructionsGroup.setScale(0.55);
-    instructionsGroup.setXPosition(stage.canvas.width / 2);
+    instructionsGroup.setXPosition(300);
     instructionsGroup.setYPosition(600);
     endMenu.addElement(instructionsGroup.getContainer());
+
+    var store_button = preloader.getResult("store_button")
+    var storeGroup = new ButtonGroup(store_button.width + 30, 30, "#21ba2b", 150);
+    storeGroup.addButton(store_button, "#21ba2b", handleStoresEvent);
+    storeGroup.setScale(0.55);
+    storeGroup.setXPosition(750);
+    storeGroup.setYPosition(600);
+    endMenu.addElement(storeGroup.getContainer());
     
     var scoreText = new createjs.Text("Score: " + score, "bold 24px Arial", "white");
     scoreText.textBaseline = "middle";
@@ -425,13 +433,22 @@ function gameWin() {
     }
     winMenu.setVisible(true);
 
-    var menu_button = preloader.getResult("menu_button");
-    var instructionsGroup = new ButtonGroup(menu_button.width + 30, 30, "#21ba2b", 150);
-    instructionsGroup.addButton(menu_button, "#21ba2b", handleMenuEvent);
+
+    var play_button = preloader.getResult("play_button")
+    var instructionsGroup = new ButtonGroup(play_button.width + 30, 30, "#21ba2b", 150);
+    instructionsGroup.addButton(play_button, "#21ba2b", handlePlayEvent);
     instructionsGroup.setScale(0.55);
-    instructionsGroup.setXPosition(stage.canvas.width / 2);
+    instructionsGroup.setXPosition(300);
     instructionsGroup.setYPosition(600);
     winMenu.addElement(instructionsGroup.getContainer());
+
+    var store_button = preloader.getResult("store_button")
+    var storeGroup = new ButtonGroup(store_button.width + 30, 30, "#21ba2b", 150);
+    storeGroup.addButton(store_button, "#21ba2b", handleStoresEvent);
+    storeGroup.setScale(0.55);
+    storeGroup.setXPosition(700);
+    storeGroup.setYPosition(600);
+    winMenu.addElement(storeGroup.getContainer());
 
     var scoreText = new createjs.Text("Score: " + score, "bold 24px Arial", "white");
     scoreText.textBaseline = "middle";
@@ -452,4 +469,14 @@ function handleMenuEvent() {
     }
     currentGameState = GameStates.MAIN_MENU;
     buildStartMenu();
+}
+function handleStoresEvent() {
+    if (currentGameState === GameStates.GAMEOVER) {
+        endMenu.setVisible(false);
+    }
+    else if (currentGameState === GameStates.GAMEWIN) {
+        winMenu.setVisible(false);
+    }
+    currentGameState = GameStates.STORE;
+    build_StoreMenu();
 }
