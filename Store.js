@@ -65,7 +65,7 @@ function build_StoreMenu() {
     line3.x = 0;
     line3.y = 435;
 
-    description1 = new createjs.Text("Time Bonus\n\nAdds more time to the timer", "18px courier", "#2AF620");
+    description1 = new createjs.Text("Time Bonus\n\nIncreases the amount of time you have by\n\n10 seconds for each purchase.", "18px courier", "#2AF620");
     description1.textAlign = "left";
     description1.x = 185;
     description1.y = 175;
@@ -99,14 +99,15 @@ function build_StoreMenu() {
 }
 
 function handleTimeBonusEvent() {
-
+    timePerLevel += 10
 }
 
 function handleSpeedBonusEvent() {
-
+    TANK_SPEED = 3;
+    ROTATION_SPEED = 3;
 }
 
 function handleFlashlightBonusEvent() {
-
+    spotlightRadius = 120;
 }
 

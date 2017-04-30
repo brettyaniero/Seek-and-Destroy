@@ -14,8 +14,8 @@ var upKeyDown = false;
 var rightKeyDown = false;
 var downKeyDown = false;
 
-const TANK_SPEED = 2;
-const ROTATION_SPEED = 2;
+var TANK_SPEED = 2;
+var ROTATION_SPEED = 2;
 const BULLET_SPEED = 5;
 
 var hits = 0;
