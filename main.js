@@ -226,7 +226,16 @@ function updateSpotlightXY(startPt, endPt, percent) {
 }
 
 function handlePlayEvent() {
-    startMenu.setVisible(false);
+
+    if (currentGameState === GameStates.MAIN_MENU) {
+        startMenu.setVisible(false);
+    }
+    else if (currentGameState === GameStates.INSTRUCTIONS) {
+        instructionsMenu.setVisible(false);
+    }
+    else if (currentGameState === GameStates.STORE) {
+        storeMenu.setVisible(false);
+    }
 
     var background = new createjs.Shape();
     background.graphics.beginFill("#2AF620").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
@@ -259,10 +268,12 @@ function handlePlayEvent() {
 
 function handleInstructionsEvent() {
     startMenu.setVisible(false);
+    currentGameState = GameStates.INSTRUCTIONS;
     build_Instructions();
 }
 
 function handleStoreEvent() {
     startMenu.setVisible(false);
+    currentGameState = GameStates.STORE;
     build_StoreMenu();
 }
