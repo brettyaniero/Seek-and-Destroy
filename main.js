@@ -36,6 +36,7 @@ var pathContainer;
 var startTime;
 var timerText;
 var timerRefreshIntervalID;
+var timePerLevel = 30;
 
 function load() {
     preloader = new createjs.LoadQueue(false);
