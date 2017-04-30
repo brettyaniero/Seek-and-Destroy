@@ -333,7 +333,7 @@ function startTimer(duration) {
 //Game Over
 
 function gameOver() {
-    stage.removeAllChildren();
+   // stage.removeAllChildren();
     createjs.Ticker.removeAllEventListeners();
 
     createjs.Sound.stop("game_soundtrack1");
@@ -361,9 +361,9 @@ function gameOver() {
     }
     endMenu.setVisible(true);
     
-    var menu_button = preloader.getResult("menu_button");
+    var menu_button = preloader.getResult("play_button");
     var instructionsGroup = new ButtonGroup(menu_button.width + 30, 30, "#21ba2b", 150);
-    instructionsGroup.addButton(menu_button, "#21ba2b", handlePlayEvent);
+    instructionsGroup.addButton(menu_button, "#21ba2b", handleMenuEvent);
     instructionsGroup.setScale(0.55);
     instructionsGroup.setXPosition(stage.canvas.width / 2);
     instructionsGroup.setYPosition(600);
@@ -378,4 +378,9 @@ function gameOver() {
 
     stage.update();
     */
+}
+function handleMenuEvent() {
+    endMenu.setVisible(false);
+    currentGameState = GameStates.MAIN_MENU;
+    buildStartMenu();
 }
