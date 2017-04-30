@@ -30,6 +30,7 @@ var spotlightRadius;
 
 var gameUI;
 var enemyTank;
+var enemyTankOutline;
 var enemyTankMask;
 var playerTank;
 
