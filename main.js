@@ -255,8 +255,8 @@ function handlePlayEvent() {
     var background = new createjs.Shape();
     background.graphics.beginFill("#2AF620").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
     gameUI.addElement(background);
-    generateMaze(7, 6, 1);
-    spawnTanks(7, 6, 1);
+    generateMaze(6, 5, 15);
+    spawnTanks(6, 5, 15);
 
     spotlight = new createjs.Shape();
     spotlight.graphics.beginFill("#FFFFFF").drawCircle(0, 0, spotlightRadius);

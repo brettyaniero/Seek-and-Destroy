@@ -23,6 +23,7 @@ function Menu() {
         }
         else {
             stage.removeChild(menuContainer);
+            menuContainer.removeAllChildren();
             createjs.Sound.stop(menuMusic);
         }
     };
