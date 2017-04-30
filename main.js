@@ -390,18 +390,11 @@ function gameOver() {
     endMenu.addElement(scoreText);
 
     stage.update();
-    
 }
-
-
-
-
-
 
 function gameWin() {
     createjs.Sound.stop("game_soundtrack1");
     createjs.Sound.play("game_over");
-    score += 1;
     winMenu = new Menu();
     var winText = new createjs.Text("GAME OVER", "bold 36px Arial", "white");
     winText.textBaseline = "middle";
@@ -440,7 +433,6 @@ function gameWin() {
     winMenu.addElement(scoreText);
 
     stage.update();
-
 }
 
 function handleMenuEvent() {
