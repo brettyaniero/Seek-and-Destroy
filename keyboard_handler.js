@@ -95,19 +95,29 @@ function handleKeyUp(e) {
 }
 
 function advanceTankForward(upperX, upperY) {
-    playerTank.x += TANK_SPEED * Math.cos(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
-    playerTank.y += TANK_SPEED * Math.sin(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
-    spotlight.x += TANK_SPEED * Math.cos(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
-    spotlight.y += TANK_SPEED * Math.sin(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
-    spotlightBorder.x += TANK_SPEED * Math.cos(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
-    spotlightBorder.y += TANK_SPEED * Math.sin(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
+    if (!pathContainer.hitTest(upperX, upperY)) {
+        // Make tank stop
+    }
+    else {
+        playerTank.x += TANK_SPEED * Math.cos(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
+        playerTank.y += TANK_SPEED * Math.sin(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
+        spotlight.x += TANK_SPEED * Math.cos(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
+        spotlight.y += TANK_SPEED * Math.sin(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
+        spotlightBorder.x += TANK_SPEED * Math.cos(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
+        spotlightBorder.y += TANK_SPEED * Math.sin(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
+    }
 }
 
 function advanceTankBackward(lowerX, lowerY) {
-    playerTank.x -= TANK_SPEED * Math.cos(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
-    playerTank.y -= TANK_SPEED * Math.sin(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
-    spotlight.x -= TANK_SPEED * Math.cos(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
-    spotlight.y -= TANK_SPEED * Math.sin(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
-    spotlightBorder.x -= TANK_SPEED * Math.cos(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
-    spotlightBorder.y -= TANK_SPEED * Math.sin(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
+    if (!pathContainer.hitTest(lowerX, lowerY)) {
+        // Make tank stop
+    }
+    else {
+        playerTank.x -= TANK_SPEED * Math.cos(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
+        playerTank.y -= TANK_SPEED * Math.sin(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
+        spotlight.x -= TANK_SPEED * Math.cos(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
+        spotlight.y -= TANK_SPEED * Math.sin(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
+        spotlightBorder.x -= TANK_SPEED * Math.cos(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
+        spotlightBorder.y -= TANK_SPEED * Math.sin(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
+    }
 }
