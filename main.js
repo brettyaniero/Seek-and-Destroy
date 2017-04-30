@@ -16,7 +16,8 @@ var spotlightPercent = 0;
 var spotlightStartPt;
 var spotlightEndPt;
 var crosshairsImage;
-var instructionsMenu
+var instructionsMenu;
+var storeMenu;
 
 var spotlightRadius;
 
@@ -116,6 +117,11 @@ function build_Instructions() {
 
     var play_button = preloader.getResult("play_button");
 
+    instruction1 = new createjs.Text("Your mission, if you choose to accept, is to eliminate the enemy tank. \n\nYou must find and eliminate the enemy by any means possible. \n\nUse the arrow keys to move, and the spacebar to fire. \n\nPurchase upgrades in the store by successfully eliminating the enemy.", "18px courier", "#2AF620");
+    instruction1.textAlign = "left";
+    instruction1.x = 105;
+    instruction1.y = 175;
+
     var instructionsGroup = new ButtonGroup(play_button.width + 30, 30, "#21ba2b");
     instructionsGroup.addButton(play_button, "#21ba2b", handlePlayEvent);
     instructionsGroup.setScale(0.55);
@@ -125,6 +131,7 @@ function build_Instructions() {
     instructionsMenu = new Menu();
     
     //storeMenu.playMusic("menu_music");
+    instructionsMenu.addElement(instruction1);
     instructionsMenu.addElement(title_image);
     instructionsMenu.addElement(instructionsGroup.getContainer());
     instructionsMenu.setVisible(true);
@@ -228,6 +235,7 @@ function handlePlayEvent() {
 
     gameUI.setVisible(true);
     instructionsMenu.setVisible(false);
+    storeMenu.setVisible(false);
     
     
 }

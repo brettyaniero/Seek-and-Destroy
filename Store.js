@@ -1,6 +1,6 @@
 // JavaScript source code
 
-
+var storeMenu;
 
 
 function build_StoreMenu() {
