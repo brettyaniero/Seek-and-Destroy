@@ -39,7 +39,7 @@ var pathContainer;
 var startTime;
 var timerText;
 var timerRefreshIntervalID;
-var timePerLevel = 3;
+var timePerLevel = 30;
 var gameOverTextRefreshIntervalID;
 var endMenu;
 var winMenu;
@@ -412,7 +412,7 @@ function gameWin() {
     createjs.Sound.stop("game_soundtrack1");
     createjs.Sound.play("game_over");
     winMenu = new Menu();
-    var winText = new createjs.Text("GAME OVER", "bold 36px Arial", "white");
+    var winText = new createjs.Text("MISSION ACCOMPLISHED", "bold 36px Arial", "white");
     winText.textBaseline = "middle";
     winText.textAlign = "center";
     winText.x = canvas.width / 2;

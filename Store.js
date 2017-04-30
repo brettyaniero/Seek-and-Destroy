@@ -67,17 +67,17 @@ function build_StoreMenu() {
     line3.x = 0;
     line3.y = 435;
 
-    description1 = new createjs.Text("Time Bonus\n\nIncreases the amount of time you have by\n\n10 seconds for each purchase.", "18px courier", "#2AF620");
+    description1 = new createjs.Text("Time Bonus\n\nIncreases the amount of time you have by\n\n10 seconds for each purchase.\n\nCost: 5", "18px courier", "#2AF620");
     description1.textAlign = "left";
     description1.x = 185;
     description1.y = 175;
 
-    description2 = new createjs.Text("Speed Boost\n\nIncreases the speed of the tank", "18px courier", "#2AF620");
+    description2 = new createjs.Text("Speed Boost\n\nIncreases the speed of the tank\n\nCost: 2", "18px courier", "#2AF620");
     description2.textAlign = "left";
     description2.x = 185;
     description2.y = 335;
 
-    description3 = new createjs.Text("Flashlight Size Increase\n\nIncreases the size of the flashlight", "18px courier", "#2AF620");
+    description3 = new createjs.Text("Flashlight Size Increase\n\nIncreases the size of the flashlight\n\nCost: 3", "18px courier", "#2AF620");
     description3.textAlign = "left";
     description3.x = 185;
     description3.y = 480;
@@ -107,22 +107,22 @@ function build_StoreMenu() {
 }
 
 function handleTimeBonusEvent() {
-    if( score >= 1)
+    if( score >= 5)
         timePerLevel += 10
     score -= 5;
    // else()
 }
 
 function handleSpeedBonusEvent() {
-    if( score >= 1)
-        TANK_SPEED += 2;
-    ROTATION_SPEED += 2;
+    if( score >= 2)
+        TANK_SPEED += 1;
+    ROTATION_SPEED += 1;
     score -= 2;
    // else()
 }
 
 function handleFlashlightBonusEvent() {
-    if (score >= 1)
+    if (score >= 3)
         spotlightRadius += 100;
     score -= 3;
    // else()
