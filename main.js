@@ -7,7 +7,8 @@ var GameStates = {
     MAIN_MENU: 0, 
     STORE: 10,
     INSTRUCTIONS: 20,
-    GAME: 30
+    GAME: 30,
+    GAMEOVER: 40
 }
 var currentGameState;
 
@@ -36,7 +37,9 @@ var pathContainer;
 var startTime;
 var timerText;
 var timerRefreshIntervalID;
-var timePerLevel = 30;
+var timePerLevel = 5;
+var gameOverTextRefreshIntervalID;
+var endMenu;
 
 function load() {
     preloader = new createjs.LoadQueue(false);
@@ -245,6 +248,9 @@ function handlePlayEvent() {
     else if (currentGameState === GameStates.STORE) {
         storeMenu.setVisible(false);
     }
+    else if (currentGameState === GameStates.GAMEOVER) {
+        endMenu.setVisible(false);
+    }
 
     var background = new createjs.Shape();
     background.graphics.beginFill("#2AF620").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
@@ -276,6 +282,7 @@ function handlePlayEvent() {
     gameUI.addElement(timerText);
 
     gameUI.setVisible(true);
+    //endMenu.setVisible(false);
     currentGameState = GameStates.GAME;
     startTimer(timePerLevel);
 }
@@ -292,6 +299,11 @@ function handleStoreEvent() {
     startMenu.setVisible(false);
     currentGameState = GameStates.STORE;
     build_StoreMenu();
+}
+function handleGameOverEvent() {
+    gameUI.setVisible(false);
+    currentGameState = GameStates.GAMEOVER;
+    gameOver();
 }
 
 //Timer
@@ -310,7 +322,7 @@ function startTimer(duration) {
             if (seconds === 0) {
                 setTimeout(function () {
                     clearInterval(timerRefreshIntervalID);
-                    gameOver();
+                    handleGameOverEvent();
                 }, 500);
             }
         }
@@ -318,4 +330,54 @@ function startTimer(duration) {
             timerText.text = ":" + seconds;
         }
     }
+}
+
+//Game Over
+
+function gameOver() {
+    stage.removeAllChildren();
+    createjs.Ticker.removeAllEventListeners();
+
+    createjs.Sound.stop("game_soundtrack1");
+    createjs.Sound.play("game_over");
+   
+    endMenu = new Menu();
+    var gameOverText = new createjs.Text("GAME OVER", "bold 36px Arial", "white");
+    gameOverText.textBaseline = "middle";
+    gameOverText.textAlign = "center";
+    gameOverText.x = canvas.width / 2;
+    gameOverText.y = canvas.height / 2;
+    endMenu.addElement(gameOverText);
+
+    gameOverTextRefreshIntervalID = setInterval(toggleText, 1000);
+
+    function toggleText() {
+        if (gameOverText.alpha === 1) {
+            gameOverText.alpha = 0;
+        }
+        else {
+            gameOverText.alpha = 1;
+        }
+
+        stage.update();
+    }
+    endMenu.setVisible(true);
+    
+    var menu_button = preloader.getResult("menu_button");
+    var instructionsGroup = new ButtonGroup(menu_button.width + 30, 30, "#21ba2b", 150);
+    instructionsGroup.addButton(menu_button, "#21ba2b", handlePlayEvent);
+    instructionsGroup.setScale(0.55);
+    instructionsGroup.setXPosition(stage.canvas.width / 2);
+    instructionsGroup.setYPosition(600);
+    endMenu.addElement(instructionsGroup.getContainer());
+    /*
+    var scoreText = new createjs.Text("Score: " + level, "bold 24px Arial", "#2AF620");
+    scoreText.textBaseline = "middle";
+    scoreText.textAlign = "center";
+    scoreText.x = canvas.width / 2;
+    scoreText.y = canvas.height - 75;
+    gameUI.addElement(scoreText);
+
+    stage.update();
+    */
 }
