@@ -28,6 +28,7 @@ var spotlightRadius;
 
 var gameUI;
 var enemyTank;
+var enemyTankMask;
 var playerTank;
 
 var pathContainer;

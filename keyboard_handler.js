@@ -98,6 +98,9 @@ function advanceTankForward(upperX, upperY) {
     if (!pathContainer.hitTest(upperX, upperY)) {
         // Make tank stop
     }
+    else if (enemyTankMask.hitTest(upperX, upperY)) {
+        // Make tank stop
+    }
     else {
         playerTank.x += TANK_SPEED * Math.cos(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
         playerTank.y += TANK_SPEED * Math.sin(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
@@ -110,6 +113,9 @@ function advanceTankForward(upperX, upperY) {
 
 function advanceTankBackward(lowerX, lowerY) {
     if (!pathContainer.hitTest(lowerX, lowerY)) {
+        // Make tank stop
+    }
+    else if (enemyTankMask.hitTest(lowerX, lowerY)) {
         // Make tank stop
     }
     else {
