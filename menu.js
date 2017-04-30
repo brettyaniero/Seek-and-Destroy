@@ -13,6 +13,10 @@ function Menu() {
         menuContainer.addChild(element);
     };
 
+    this.removeElement = function (element) {
+        menuContainer.removeChild(element);
+    }
+
     this.setVisible = function (value) {
         if (value) {
             stage.addChild(menuContainer);

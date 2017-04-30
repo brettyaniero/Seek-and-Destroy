@@ -60,7 +60,9 @@ function load() {
         { id: "big_spotlight", src: "Assets/big_spotlight.png" },
         { id: "enemy", src: "Assets/enemy.png" },
         { id: "buy", src: "Assets/buy.png" },
-        { id: "player", src: "Assets/player.png"}
+        { id: "player", src: "Assets/player.png" },
+        { id: "bullet", src: "Assets/bullet.png" },
+        { id: "explosion", src: "Assets/explosion.png" }
     ]);
 }
 
@@ -72,7 +74,7 @@ function init() {
     createjs.Ticker.addEventListener("tick", run);
     buildStartMenu();
     gameUI = new Menu();
-    spotlightRadius = 80;
+    spotlightRadius = 400;
 
     window.onkeydown = handleKeyDown;
     window.onkeyup = handleKeyUp;
