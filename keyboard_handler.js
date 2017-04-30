@@ -19,6 +19,17 @@ const ROTATION_SPEED = 2;
 const BULLET_SPEED = 5;
 
 var hits = 0;
+var bulletStream = [];
+
+ data = {
+    images: ["Assets/explosion.png"],
+    frames: { width: 64, height: 64, regX: 32, regY: 64, spacing: 0, count: 24, margin: 0 },
+    animations: {
+        stand: 0,
+        explode: [1, 24, , .3]   // start,end,next*,speed*
+    }
+};
+
 
 function handleKeyboardEvents() {
     var topX = playerTank.x - (playerTank.image.height / 2) * Math.sin(playerTank.rotation * (Math.PI / -180));
@@ -54,6 +65,36 @@ function handleKeyboardEvents() {
     }
     else if (rightKeyDown) {
         playerTank.rotation += ROTATION_SPEED;
+    }
+
+    for (element in bulletStream) {
+        var bullet = bulletStream[element];
+
+        bullet.x -= Math.sin(bullet.rotation * (Math.PI / -180)) * BULLET_SPEED;
+        bullet.y -= Math.cos(bullet.rotation * (Math.PI / -180)) * BULLET_SPEED;
+
+        if (!pathContainer.hitTest(bullet.x, bullet.y)) {
+            // Get rid of that bullet
+            bullet.x = -10;
+            stage.removeChild(bullet);
+        }
+
+        if (enemyTankMask.hitTest(bullet.x, bullet.y)) {
+            bullet.x = -10;
+            hits += 1;
+
+            if (hits <= 1) {
+                gameUI.removeElement(enemyTank);
+                var spritesheet = new createjs.SpriteSheet(data);
+
+                exploding = new createjs.Sprite(spritesheet, 'explode');
+                exploding.x = enemyTankMask.x;
+                exploding.y = enemyTankMask.y + 30;
+                gameUI.addElement(exploding);
+
+                gameUI.removeElement(enemyTankMask);
+            }
+        }
     }
 }
 
@@ -127,3 +168,21 @@ function advanceTankBackward(lowerX, lowerY) {
         spotlightBorder.y -= TANK_SPEED * Math.sin(playerTank.rotation * (Math.PI / 180) - Math.PI / 2);
     }
 }
+
+function fireBullet() {
+    var bullet_img = preloader.getResult("bullet");
+    var bullet = new createjs.Bitmap(bullet_img);
+    bullet.regX = bullet.image.width / 2;
+    bullet.regY = bullet.image.height / 2;
+    
+    bullet.x = playerTank.x - (playerTank.image.height / 2) * Math.sin(playerTank.rotation * (Math.PI / -180));
+    bullet.y = playerTank.y - (playerTank.image.height / 2) * Math.cos(playerTank.rotation * (Math.PI / -180));
+    bullet.rotation = playerTank.rotation;
+
+    bullet.mask = spotlight;
+
+    bulletStream[bulletStream.length] = bullet;
+
+    stage.addChild(bullet);
+}
+
