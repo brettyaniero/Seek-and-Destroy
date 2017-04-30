@@ -4,7 +4,10 @@ var canvas;
 var stage;
 
 var GameStates = {
-    MAIN_MENU: 0
+    MAIN_MENU: 0, 
+    STORE: 10,
+    INSTRUCTIONS: 20,
+    GAME: 30
 }
 var currentGameState;
 
@@ -19,6 +22,8 @@ var crosshairsImage;
 var instructionsMenu;
 var storeMenu;
 
+var spotlight;
+var spotlightBorder;
 var spotlightRadius;
 
 var gameUI;
@@ -58,6 +63,9 @@ function init() {
     buildStartMenu();
     gameUI = new Menu();
     spotlightRadius = 80;
+
+    window.onkeydown = handleKeyDown;
+    window.onkeyup = handleKeyUp;
 }
 
 function buildStartMenu() {
@@ -181,6 +189,9 @@ function run(event) {
         var deltaS = event.delta / 1000;
         mistImage.x = (mistImage.x - deltaS * 100) % mistImage.tileW;
     }
+    else if (currentGameState === GameStates.GAME) {
+        handleKeyboardEvents();
+    }
 
     stage.update();
 }
@@ -223,21 +234,25 @@ function handlePlayEvent() {
     generateMaze(7, 6, 1);
     spawnTanks(7, 6, 1);
 
-    var spotlight = new createjs.Shape();
+    spotlight = new createjs.Shape();
     spotlight.graphics.beginFill("#FFFFFF").drawCircle(0, 0, spotlightRadius);
     spotlight.x = playerTank.x;
     spotlight.y = playerTank.y;
     spotlight.alpha = 0;
     gameUI.addElement(spotlight);
+
+    spotlightBorder = new createjs.Shape();
+    spotlightBorder.graphics.beginStroke("black").drawCircle(0, 0, spotlightRadius);
+    spotlightBorder.x = playerTank.x;
+    spotlightBorder.y = playerTank.y;
+    gameUI.addElement(spotlightBorder);
+
     pathContainer.mask = spotlight;
     background.mask = spotlight;
     enemyTank.mask = spotlight;
 
     gameUI.setVisible(true);
-    instructionsMenu.setVisible(false);
-    storeMenu.setVisible(false);
-    
-    
+    currentGameState = GameStates.GAME;
 }
 
 
