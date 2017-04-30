@@ -95,9 +95,9 @@ function handleKeyboardEvents() {
                 setTimeout(function () {
                     gameUI.removeElement(exploding);
                     hits = 0;
+                    handleWinEvent();
                 }, 1300);
                 gameUI.removeElement(enemyTankMask);
-                handleWinEvent();
             }
         }
     }
@@ -144,7 +144,7 @@ function advanceTankForward(upperX, upperY) {
     if (!pathContainer.hitTest(upperX, upperY)) {
         // Make tank stop
     }
-    else if (enemyTankOutline.hitTest(upperX, upperY)) {
+    else if (enemyTankMask.hitTest(upperX, upperY)) {
         // Make tank stop
     }
     else {
@@ -161,7 +161,7 @@ function advanceTankBackward(lowerX, lowerY) {
     if (!pathContainer.hitTest(lowerX, lowerY)) {
         // Make tank stop
     }
-    else if (enemyTankOutline.hitTest(lowerX, lowerY)) {
+    else if (enemyTankMask.hitTest(lowerX, lowerY)) {
         // Make tank stop
     }
     else {
