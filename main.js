@@ -33,6 +33,10 @@ var playerTank;
 
 var pathContainer;
 
+var startTime;
+var timerText;
+var timerRefreshIntervalID;
+
 function load() {
     preloader = new createjs.LoadQueue(false);
     preloader.installPlugin(createjs.Sound);
@@ -262,8 +266,15 @@ function handlePlayEvent() {
     background.mask = spotlight;
     enemyTank.mask = spotlight;
 
+    timerText = new createjs.Text(":" + timePerLevel, "bold 48px Arial", "red");
+    timerText.textBaseline = "right";
+    timerText.x = canvas.width - 80;
+    timerText.y = 45;
+    gameUI.addElement(timerText);
+
     gameUI.setVisible(true);
     currentGameState = GameStates.GAME;
+    startTimer(timePerLevel);
 }
 
 
@@ -278,4 +289,30 @@ function handleStoreEvent() {
     startMenu.setVisible(false);
     currentGameState = GameStates.STORE;
     build_StoreMenu();
+}
+
+//Timer
+
+
+function startTimer(duration) {
+    timerRefreshIntervalID = setInterval(incrementTimer, 1000);
+    var seconds = timePerLevel;
+
+    function incrementTimer() {
+        seconds--;
+
+        if (seconds < 10) {
+            timerText.text = ":0" + seconds;
+
+            if (seconds === 0) {
+                setTimeout(function () {
+                    clearInterval(timerRefreshIntervalID);
+                    gameOver();
+                }, 500);
+            }
+        }
+        else {
+            timerText.text = ":" + seconds;
+        }
+    }
 }
