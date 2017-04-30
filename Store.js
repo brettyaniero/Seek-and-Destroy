@@ -99,15 +99,24 @@ function build_StoreMenu() {
 }
 
 function handleTimeBonusEvent() {
-    timePerLevel += 10
+    if( score >= 1)
+        timePerLevel += 10
+    score -= 1;
+   // else()
 }
 
 function handleSpeedBonusEvent() {
-    TANK_SPEED = 3;
+    if( score >= 1)
+        TANK_SPEED = 3;
     ROTATION_SPEED = 3;
+    score -= 1;
+   // else()
 }
 
 function handleFlashlightBonusEvent() {
-    spotlightRadius = 120;
+    if (score >= 1)
+        spotlightRadius = 120;
+    score -= 1;
+   // else()
 }
 

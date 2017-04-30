@@ -44,6 +44,7 @@ var gameOverTextRefreshIntervalID;
 var endMenu;
 var winMenu;
 var score = 0;
+var seconds;
 
 function load() {
     preloader = new createjs.LoadQueue(false);
@@ -257,7 +258,7 @@ function handlePlayEvent() {
         endMenu.setVisible(false);
     }
     else if (currentGameState === GameStates.GAMEWIN) {
-        endMenu.setVisible(false);
+        winMenu.setVisible(false);
     }
 
     var background = new createjs.Shape();
@@ -283,11 +284,7 @@ function handlePlayEvent() {
     background.mask = spotlight;
     enemyTank.mask = spotlight;
 
-    timerText = new createjs.Text(":" + timePerLevel, "bold 48px Arial", "red");
-    timerText.textBaseline = "right";
-    timerText.x = canvas.width - 80;
-    timerText.y = 45;
-    gameUI.addElement(timerText);
+
 
     gameUI.setVisible(true);
     //endMenu.setVisible(false);
@@ -317,6 +314,7 @@ function handleWinEvent() {
     gameUI.setVisible(false);
     currentGameState = GameStates.GAMEWIN;
     score += 1;
+    
     gameWin();
 }
 
@@ -324,15 +322,22 @@ function handleWinEvent() {
 
 
 function startTimer(duration) {
+
+    timerText = new createjs.Text(":" + timePerLevel, "bold 48px Arial", "red");
+    timerText.textBaseline = "right";
+    timerText.x = canvas.width - 80;
+    timerText.y = 45;
+    gameUI.addElement(timerText);
+
     timerRefreshIntervalID = setInterval(incrementTimer, 1000);
-    var seconds = timePerLevel;
+    seconds = timePerLevel;
 
     function incrementTimer() {
         seconds--;
 
         if (seconds < 10) {
             timerText.text = ":0" + seconds;
-
+             
             if (seconds === 0) {
                 setTimeout(function () {
                     clearInterval(timerRefreshIntervalID);
@@ -345,6 +350,7 @@ function startTimer(duration) {
         }
     }
 }
+
 
 //Game Over
 
@@ -393,6 +399,8 @@ function gameOver() {
 }
 
 function gameWin() {
+
+    clearInterval(timerRefreshIntervalID);
     createjs.Sound.stop("game_soundtrack1");
     createjs.Sound.play("game_over");
     winMenu = new Menu();
@@ -431,7 +439,7 @@ function gameWin() {
     scoreText.x = canvas.width / 2;
     scoreText.y = canvas.height - 275;
     winMenu.addElement(scoreText);
-
+    
     stage.update();
 }
 
