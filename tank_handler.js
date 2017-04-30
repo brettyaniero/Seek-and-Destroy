@@ -20,7 +20,7 @@ function spawnTanks(width, height, startUnit) {
     enemyTank.regY = enemy.height / 2;
     enemyTank.y = targetUnitRow * unitHeight + unitHeight / 2;
 
-    var enemyTankOutline = new createjs.Shape();
+    enemyTankOutline = new createjs.Shape();
     enemyTankOutline.graphics.beginFill("black").drawRect(0, 0, enemyTank.image.width, enemyTank.image.height);
     enemyTankOutline.x = enemyTank.x;
     enemyTankOutline.regX = enemyTank.regX;

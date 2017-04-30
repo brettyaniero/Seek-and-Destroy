@@ -76,7 +76,7 @@ function handleKeyboardEvents() {
         if (!pathContainer.hitTest(bullet.x, bullet.y)) {
             // Get rid of that bullet
             bullet.x = -10;
-            stage.removeChild(bullet);
+            gameUI.removeElement(bullet);
         }
 
         if (enemyTankMask.hitTest(bullet.x, bullet.y)) {
@@ -88,8 +88,8 @@ function handleKeyboardEvents() {
                 var spritesheet = new createjs.SpriteSheet(data);
 
                 exploding = new createjs.Sprite(spritesheet, 'explode');
-                exploding.x = enemyTankMask.x;
-                exploding.y = enemyTankMask.y + 30;
+                exploding.x = enemyTankOutline.x;
+                exploding.y = enemyTankOutline.y + 30;
                 gameUI.addElement(exploding);
 
                 gameUI.removeElement(enemyTankMask);
@@ -139,7 +139,7 @@ function advanceTankForward(upperX, upperY) {
     if (!pathContainer.hitTest(upperX, upperY)) {
         // Make tank stop
     }
-    else if (enemyTankMask.hitTest(upperX, upperY)) {
+    else if (enemyTankOutline.hitTest(upperX, upperY)) {
         // Make tank stop
     }
     else {
@@ -156,7 +156,7 @@ function advanceTankBackward(lowerX, lowerY) {
     if (!pathContainer.hitTest(lowerX, lowerY)) {
         // Make tank stop
     }
-    else if (enemyTankMask.hitTest(lowerX, lowerY)) {
+    else if (enemyTankOutline.hitTest(lowerX, lowerY)) {
         // Make tank stop
     }
     else {
@@ -183,6 +183,6 @@ function fireBullet() {
 
     bulletStream[bulletStream.length] = bullet;
 
-    stage.addChild(bullet);
+    gameUI.addElement(bullet);
 }
 

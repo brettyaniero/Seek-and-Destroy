@@ -29,6 +29,7 @@ var spotlightRadius;
 
 var gameUI;
 var enemyTank;
+var enemyTankOutline;
 var enemyTankMask;
 var playerTank;
 
@@ -37,7 +38,7 @@ var pathContainer;
 var startTime;
 var timerText;
 var timerRefreshIntervalID;
-var timePerLevel = 5;
+var timePerLevel = 1000;
 var gameOverTextRefreshIntervalID;
 var endMenu;
 
