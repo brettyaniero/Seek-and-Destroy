@@ -1,5 +1,5 @@
 
-function ButtonGroup(buttonWidth, verticalPadding, hoverColor) {
+function ButtonGroup(buttonWidth, verticalPadding, hoverColor, spacing) {
     var buttonGroupContainer = new createjs.Container();
     var buttonCount = 0;
 
@@ -38,7 +38,7 @@ function ButtonGroup(buttonWidth, verticalPadding, hoverColor) {
         buttonContainer.addChild(buttonOutline, text);
 
         if (buttonCount > 0) {
-            buttonContainer.y += 150 * buttonCount;
+            buttonContainer.y += spacing * buttonCount;
         }
 
         buttonGroupContainer.addChild(buttonContainer);

@@ -97,7 +97,7 @@ function buildStartMenu() {
     title_image.x = (stage.canvas.width - (title.width * title_image.scaleX)) / 2;
     title_image.y = 0.03 * stage.canvas.height;
 
-    var buttonGroup = new ButtonGroup(instructions_button.width + 30, 30, "#21ba2b");
+    var buttonGroup = new ButtonGroup(instructions_button.width + 30, 30, "#21ba2b", 150);
     buttonGroup.addButton(play_button, "#21ba2b", handlePlayEvent);
     buttonGroup.addButton(instructions_button, "#21ba2b", handleInstructionsEvent);
     buttonGroup.addButton(store_button, "#21ba2b", handleStoreEvent);
@@ -130,7 +130,7 @@ function build_Instructions() {
     instruction1.x = 105;
     instruction1.y = 175;
 
-    var instructionsGroup = new ButtonGroup(play_button.width + 30, 30, "#21ba2b");
+    var instructionsGroup = new ButtonGroup(play_button.width + 30, 30, "#21ba2b", 150);
     instructionsGroup.addButton(play_button, "#21ba2b", handlePlayEvent);
     instructionsGroup.setScale(0.55);
     instructionsGroup.setXPosition(stage.canvas.width / 2);
