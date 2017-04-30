@@ -92,7 +92,10 @@ function handleKeyboardEvents() {
                 exploding.x = enemyTankOutline.x;
                 exploding.y = enemyTankOutline.y + 30;
                 gameUI.addElement(exploding);
-
+                setTimeout(function () {
+                    gameUI.removeElement(exploding);
+                    hits = 0;
+                }, 1300);
                 gameUI.removeElement(enemyTankMask);
                 handleWinEvent();
             }
