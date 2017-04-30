@@ -35,12 +35,21 @@ function build_StoreMenu() {
     spot_image.x = 25;
 
     var play_button = preloader.getResult("play_button");
+    var buy = preloader.getResult("buy");
 
     var storeGroup = new ButtonGroup(play_button.width + 30, 30, "#21ba2b");
     storeGroup.addButton(play_button, "#21ba2b", handlePlayEvent);
     storeGroup.setScale(0.55);
     storeGroup.setXPosition(stage.canvas.width / 2);
     storeGroup.setYPosition(600);
+
+    var buyGroup = new ButtonGroup(buy.width + 30, 30, "#21ba2b",380);
+    buyGroup.addButton(buy, "#21ba2b", handleTimeBonusEvent);
+    buyGroup.addButton(buy, "#21ba2b", handleSpeedBonusEvent);
+    buyGroup.addButton(buy, "#21ba2b", handleFlashlightBonusEvent);
+    buyGroup.setScale(0.4);
+    buyGroup.setXPosition(900);
+    buyGroup.setYPosition(200);
 
     var line = new createjs.Graphics();
     line.beginFill("#2AF620").drawRect(0, 0, 1000, 3);
@@ -66,7 +75,7 @@ function build_StoreMenu() {
     description2.x = 185;
     description2.y = 335;
 
-    description3 = new createjs.Text("Flashlight Size Increase\n\nIncreases the size of the falshlight", "18px courier", "#2AF620");
+    description3 = new createjs.Text("Flashlight Size Increase\n\nIncreases the size of the flashlight", "18px courier", "#2AF620");
     description3.textAlign = "left";
     description3.x = 185;
     description3.y = 480;
@@ -84,6 +93,20 @@ function build_StoreMenu() {
     storeMenu.addElement(description2);
     storeMenu.addElement(description3);
     storeMenu.addElement(storeGroup.getContainer());
+    storeMenu.addElement(buyGroup.getContainer());
 
     storeMenu.setVisible(true);
 }
+
+function handleTimeBonusEvent() {
+
+}
+
+function handleSpeedBonusEvent() {
+
+}
+
+function handleFlashlightBonusEvent() {
+
+}
+

@@ -49,7 +49,8 @@ function load() {
         { id: "stopwatch", src: "Assets/stopwatch.png" },
         { id: "speed_arrow", src: "Assets/arrow.png" },
         { id: "big_spotlight", src: "Assets/big_spotlight.png" },
-        { id: "enemy", src: "Assets/enemy.png" }, 
+        { id: "enemy", src: "Assets/enemy.png" },
+        { id: "buy", src: "Assets/buy.png" },
         { id: "player", src: "Assets/player.png"}
     ]);
 }
