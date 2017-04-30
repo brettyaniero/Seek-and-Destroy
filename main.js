@@ -335,9 +335,6 @@ function startTimer(duration) {
 //Game Over
 
 function gameOver() {
-   // stage.removeAllChildren();
-    createjs.Ticker.removeAllEventListeners();
-
     createjs.Sound.stop("game_soundtrack1");
     createjs.Sound.play("game_over");
    
