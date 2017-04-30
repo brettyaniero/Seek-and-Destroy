@@ -8,7 +8,8 @@ var GameStates = {
     STORE: 10,
     INSTRUCTIONS: 20,
     GAME: 30,
-    GAMEOVER: 40
+    GAMEOVER: 40,
+    GAMEWIN: 50
 }
 var currentGameState;
 
@@ -37,9 +38,11 @@ var pathContainer;
 var startTime;
 var timerText;
 var timerRefreshIntervalID;
-var timePerLevel = 5;
+var timePerLevel = 30;
 var gameOverTextRefreshIntervalID;
 var endMenu;
+var winMenu;
+var score = 0;
 
 function load() {
     preloader = new createjs.LoadQueue(false);
@@ -62,7 +65,8 @@ function load() {
         { id: "buy", src: "Assets/buy.png" },
         { id: "player", src: "Assets/player.png" },
         { id: "bullet", src: "Assets/bullet.png" },
-        { id: "explosion", src: "Assets/explosion.png" }
+        { id: "explosion", src: "Assets/explosion.png" },
+        { id: "menu_button", src: "Assets/menu.png" }
     ]);
 }
 
@@ -251,6 +255,9 @@ function handlePlayEvent() {
     else if (currentGameState === GameStates.GAMEOVER) {
         endMenu.setVisible(false);
     }
+    else if (currentGameState === GameStates.GAMEWIN) {
+        endMenu.setVisible(false);
+    }
 
     var background = new createjs.Shape();
     background.graphics.beginFill("#2AF620").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
@@ -304,6 +311,12 @@ function handleGameOverEvent() {
     gameUI.setVisible(false);
     currentGameState = GameStates.GAMEOVER;
     gameOver();
+}
+function handleWinEvent() {
+    gameUI.setVisible(false);
+    currentGameState = GameStates.GAMEWIN;
+    score += 1;
+    gameWin();
 }
 
 //Timer
@@ -360,26 +373,82 @@ function gameOver() {
     }
     endMenu.setVisible(true);
     
-    var menu_button = preloader.getResult("play_button");
+    var menu_button = preloader.getResult("menu_button");
     var instructionsGroup = new ButtonGroup(menu_button.width + 30, 30, "#21ba2b", 150);
     instructionsGroup.addButton(menu_button, "#21ba2b", handleMenuEvent);
     instructionsGroup.setScale(0.55);
     instructionsGroup.setXPosition(stage.canvas.width / 2);
     instructionsGroup.setYPosition(600);
     endMenu.addElement(instructionsGroup.getContainer());
-    /*
-    var scoreText = new createjs.Text("Score: " + level, "bold 24px Arial", "#2AF620");
+    
+    var scoreText = new createjs.Text("Score: " + score, "bold 24px Arial", "white");
     scoreText.textBaseline = "middle";
     scoreText.textAlign = "center";
     scoreText.x = canvas.width / 2;
-    scoreText.y = canvas.height - 75;
-    gameUI.addElement(scoreText);
+    scoreText.y = canvas.height - 275;
+    endMenu.addElement(scoreText);
 
     stage.update();
-    */
+    
 }
+
+
+
+
+
+
+function gameWin() {
+    createjs.Sound.stop("game_soundtrack1");
+    createjs.Sound.play("game_over");
+    score += 1;
+    winMenu = new Menu();
+    var winText = new createjs.Text("GAME OVER", "bold 36px Arial", "white");
+    winText.textBaseline = "middle";
+    winText.textAlign = "center";
+    winText.x = canvas.width / 2;
+    winText.y = canvas.height / 2;
+    winMenu.addElement(winText);
+
+    gameOverTextRefreshIntervalID = setInterval(toggleText, 1000);
+
+    function toggleText() {
+        if (winText.alpha === 1) {
+            winText.alpha = 0;
+        }
+        else {
+            winText.alpha = 1;
+        }
+
+        stage.update();
+    }
+    winMenu.setVisible(true);
+
+    var menu_button = preloader.getResult("menu_button");
+    var instructionsGroup = new ButtonGroup(menu_button.width + 30, 30, "#21ba2b", 150);
+    instructionsGroup.addButton(menu_button, "#21ba2b", handleMenuEvent);
+    instructionsGroup.setScale(0.55);
+    instructionsGroup.setXPosition(stage.canvas.width / 2);
+    instructionsGroup.setYPosition(600);
+    winMenu.addElement(instructionsGroup.getContainer());
+
+    var scoreText = new createjs.Text("Score: " + score, "bold 24px Arial", "white");
+    scoreText.textBaseline = "middle";
+    scoreText.textAlign = "center";
+    scoreText.x = canvas.width / 2;
+    scoreText.y = canvas.height - 275;
+    winMenu.addElement(scoreText);
+
+    stage.update();
+
+}
+
 function handleMenuEvent() {
-    endMenu.setVisible(false);
+    if (currentGameState === GameStates.GAMEOVER) {
+        endMenu.setVisible(false);
+    }
+    else if (currentGameState === GameStates.GAMEWIN) {
+        winMenu.setVisible(false);
+    }
     currentGameState = GameStates.MAIN_MENU;
     buildStartMenu();
 }

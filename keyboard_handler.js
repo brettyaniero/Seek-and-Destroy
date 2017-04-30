@@ -85,6 +85,7 @@ function handleKeyboardEvents() {
 
             if (hits <= 1) {
                 gameUI.removeElement(enemyTank);
+                
                 var spritesheet = new createjs.SpriteSheet(data);
 
                 exploding = new createjs.Sprite(spritesheet, 'explode');
@@ -93,6 +94,7 @@ function handleKeyboardEvents() {
                 gameUI.addElement(exploding);
 
                 gameUI.removeElement(enemyTankMask);
+                handleWinEvent();
             }
         }
     }
