@@ -21,6 +21,8 @@ const BULLET_SPEED = 5;
 var hits = 0;
 var bulletStream = [];
 
+var success = false;
+
  data = {
     images: ["Assets/explosion.png"],
     frames: { width: 64, height: 64, regX: 32, regY: 64, spacing: 0, count: 24, margin: 0 },
@@ -93,6 +95,8 @@ function handleKeyboardEvents() {
                 exploding.x = enemyTankOutline.x;
                 exploding.y = enemyTankOutline.y + 30;
                 gameUI.addElement(exploding);
+                success = true;
+
                 setTimeout(function () {
                     gameUI.removeElement(exploding);
                     hits = 0;

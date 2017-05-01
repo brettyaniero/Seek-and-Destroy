@@ -13,6 +13,10 @@ function spawnTanks(width, height, startUnit) {
     var targetUnitRow = (targetUnit > width) ? Math.ceil(targetUnit / width) - 1 : 0;
     var targetUnitColumn = (targetUnit % width != 0) ? targetUnit % width - 1 : width - 1;
 
+    while (Math.abs(startUnit - targetUnit) < 3) {
+        startUnit = Math.floor(Math.random() * (width * height));
+    }
+
     var enemy = preloader.getResult("enemy");
     enemyTank = new createjs.Bitmap(enemy);
     enemyTank.regX = enemy.width / 2;

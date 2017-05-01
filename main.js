@@ -285,6 +285,8 @@ function handlePlayEvent() {
         winMenu.setVisible(false);
     }
 
+    success = false;
+
     var background = new createjs.Shape();
     background.graphics.beginFill("#2AF620").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
     gameUI.addElement(background);
@@ -333,23 +335,25 @@ function handleStoreEvent() {
     build_StoreMenu();
 }
 function handleGameOverEvent() {
-    gameUI.setVisible(false);
-    currentGameState = GameStates.GAMEOVER;
+    if (!success) {
+        gameUI.setVisible(false);
+        currentGameState = GameStates.GAMEOVER;
 
-    lives--;
+        lives--;
 
-    if (lives === 0) {
-        lives = 3;
-        score = 0;
-        TANK_SPEED = 2;
-        ROTATION_SPEED = 2;
-        spotlightRadius = 120;
-        timePerLevel = 45;
-        width = 6;
-        height = 5;
+        if (lives === 0) {
+            lives = 3;
+            score = 0;
+            TANK_SPEED = 2;
+            ROTATION_SPEED = 2;
+            spotlightRadius = 120;
+            timePerLevel = 30;
+            width = 6;
+            height = 5;
+        }
+
+        gameOver();
     }
-
-    gameOver();
 }
 function handleWinEvent() {
     gameUI.setVisible(false);
