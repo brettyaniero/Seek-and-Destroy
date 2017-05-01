@@ -1,12 +1,9 @@
 // JavaScript source code
 
 var storeMenu;
-
+var scoreText;
 
 function build_StoreMenu() {
-
-
-
     var title = preloader.getResult("store_button");
     var title_image = new createjs.Bitmap(title);
     title_image.scaleX = 1;
@@ -70,24 +67,23 @@ function build_StoreMenu() {
     description1 = new createjs.Text("Time Bonus\n\nIncreases the amount of time you have by\n\n10 seconds for each purchase.\n\nCost: 5", "18px courier", "#2AF620");
     description1.textAlign = "left";
     description1.x = 185;
-    description1.y = 175;
+    description1.y = 140;
 
     description2 = new createjs.Text("Speed Boost\n\nIncreases the speed of the tank\n\nCost: 2", "18px courier", "#2AF620");
     description2.textAlign = "left";
     description2.x = 185;
-    description2.y = 335;
+    description2.y = 325;
 
     description3 = new createjs.Text("Flashlight Size Increase\n\nIncreases the size of the flashlight\n\nCost: 3", "18px courier", "#2AF620");
     description3.textAlign = "left";
     description3.x = 185;
     description3.y = 480;
-    /*
-    scoretext = new createjs.Text("Score:" + score, "18px courier", "white");
-    scoretext.textAlign = "left";
-    scoretext.x = 185;
-    scoretext.y = 150;
-    storeMenu.addElement(scoretext);
-    */
+
+    scoreText = new createjs.Text("Score:" + score, "34px courier", "#2AF620");
+    scoreText.textAlign = "left";
+    scoreText.x = 20;
+    scoreText.y = 630;
+
     storeMenu = new Menu();
     //storeMenu.playMusic("menu_music");
     storeMenu.addElement(title_image);
@@ -102,29 +98,36 @@ function build_StoreMenu() {
     storeMenu.addElement(description3);
     storeMenu.addElement(storeGroup.getContainer());
     storeMenu.addElement(buyGroup.getContainer());
+    storeMenu.addElement(scoreText);
 
     storeMenu.setVisible(true);
 }
 
 function handleTimeBonusEvent() {
-    if( score >= 5)
+    if (score >= 5) {
         timePerLevel += 10
-    score -= 5;
+        score -= 5;
+        scoreText.text = "Score: " + score;
+    }
    // else()
 }
 
 function handleSpeedBonusEvent() {
-    if( score >= 2)
+    if (score >= 2) {
         TANK_SPEED += 1;
-    ROTATION_SPEED += 1;
-    score -= 2;
+        ROTATION_SPEED += 1;
+        score -= 2;
+        scoreText.text = "Score: " + score;
+    }
    // else()
 }
 
 function handleFlashlightBonusEvent() {
-    if (score >= 3)
+    if (score >= 3) {
         spotlightRadius += 100;
-    score -= 3;
+        score -= 3;
+        scoreText.text = "Score: " + score;
+    }
    // else()
 }
 

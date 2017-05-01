@@ -39,12 +39,16 @@ var pathContainer;
 var startTime;
 var timerText;
 var timerRefreshIntervalID;
-var timePerLevel = 30;
+var timePerLevel = 45;
 var gameOverTextRefreshIntervalID;
 var endMenu;
 var winMenu;
 var score = 0;
+var lives = 2;
 var seconds;
+
+var width;
+var height;
 
 function load() {
     preloader = new createjs.LoadQueue(false);
@@ -68,7 +72,8 @@ function load() {
         { id: "player", src: "Assets/player.png" },
         { id: "bullet", src: "Assets/bullet.png" },
         { id: "explosion", src: "Assets/explosion.png" },
-        { id: "menu_button", src: "Assets/menu.png" }
+        { id: "menu_button", src: "Assets/menu.png" }, 
+        { id: "continue", src: "Assets/continue.png" }
     ]);
 }
 
@@ -80,7 +85,9 @@ function init() {
     createjs.Ticker.addEventListener("tick", run);
     buildStartMenu();
     gameUI = new Menu();
-    spotlightRadius = 400;
+    spotlightRadius = 120; 
+    width = 6;
+    height = 5;
 
     window.onkeydown = handleKeyDown;
     window.onkeyup = handleKeyUp;
@@ -140,10 +147,11 @@ function build_Instructions() {
     title_image.scaleX = 1;
     title_image.scaleY = 1;
     title_image.x = 175;
+    title_image.y = 30;
 
     var play_button = preloader.getResult("play_button");
 
-    instruction1 = new createjs.Text("Your mission, if you choose to accept, is to eliminate the enemy tank. \n\nYou must find and eliminate the enemy by any means possible. \n\nUse the arrow keys to move, and the spacebar to fire. \n\nPurchase upgrades in the store by successfully eliminating the enemy.", "18px courier", "#2AF620");
+    instruction1 = new createjs.Text("Your mission, if you choose to accept, is to eliminate the enemy tank. \n\nYou must find and eliminate the enemy by any means possible. \n\nUse the arrow keys to move, and the spacebar to fire. \n\nPurchase upgrades in the store by successfully eliminating the enemy.", "20px courier", "#2AF620");
     instruction1.textAlign = "left";
     instruction1.x = 105;
     instruction1.y = 175;
@@ -264,8 +272,8 @@ function handlePlayEvent() {
     var background = new createjs.Shape();
     background.graphics.beginFill("#2AF620").drawRect(0, 0, stage.canvas.width, stage.canvas.height);
     gameUI.addElement(background);
-    generateMaze(6, 5, 15);
-    spawnTanks(6, 5, 15);
+    generateMaze(width, height, 15);
+    spawnTanks(width, height, Math.floor(Math.random() * (6 * 5)));
 
     spotlight = new createjs.Shape();
     spotlight.graphics.beginFill("#FFFFFF").drawCircle(0, 0, spotlightRadius);
@@ -284,15 +292,11 @@ function handlePlayEvent() {
     background.mask = spotlight;
     enemyTank.mask = spotlight;
 
-
-
     gameUI.setVisible(true);
     //endMenu.setVisible(false);
     currentGameState = GameStates.GAME;
     startTimer(timePerLevel);
 }
-
-
 
 function handleInstructionsEvent() {
     startMenu.setVisible(false);
@@ -308,18 +312,31 @@ function handleStoreEvent() {
 function handleGameOverEvent() {
     gameUI.setVisible(false);
     currentGameState = GameStates.GAMEOVER;
+
+    lives--;
+
+    if (lives < 0) {
+        lives = 3;
+        score = 0;
+        TANK_SPEED = 2;
+        ROTATION_SPEED = 2;
+        spotlightRadius = 120;
+        timePerLevel = 45;
+        width = 6;
+        height = 5;
+    }
+
     gameOver();
 }
 function handleWinEvent() {
     gameUI.setVisible(false);
     currentGameState = GameStates.GAMEWIN;
     score += 1;
+    width += 1;
+    height += 1;
     
     gameWin();
 }
-
-//Timer
-
 
 function startTimer(duration) {
 
@@ -351,12 +368,7 @@ function startTimer(duration) {
     }
 }
 
-
-//Game Over
-
 function gameOver() {
-   
-   
     endMenu = new Menu();
     var gameOverText = new createjs.Text("GAME OVER", "bold 36px Arial", "white");
     gameOverText.textBaseline = "middle";
@@ -379,10 +391,9 @@ function gameOver() {
     }
     endMenu.setVisible(true);
     
-    
-    var play_button = preloader.getResult("play_button")
-    var instructionsGroup = new ButtonGroup(play_button.width + 30, 30, "#21ba2b", 150);
-    instructionsGroup.addButton(play_button, "#21ba2b", handlePlayEvent);
+    var continue_button = preloader.getResult("continue");
+    var instructionsGroup = new ButtonGroup(continue_button.width + 30, 30, "#21ba2b", 150);
+    instructionsGroup.addButton(continue_button, "#21ba2b", handlePlayEvent);
     instructionsGroup.setScale(0.55);
     instructionsGroup.setXPosition(300);
     instructionsGroup.setYPosition(600);
@@ -403,15 +414,30 @@ function gameOver() {
     scoreText.y = canvas.height - 275;
     endMenu.addElement(scoreText);
 
+    var livesText = new createjs.Text("Lives remaining: " + lives, "bold 24px Arial", "white");
+    livesText.textBaseline = "middle";
+    livesText.textAlign = "center";
+    livesText.x = canvas.width / 2;
+    livesText.y = scoreText.y + 50;
+
+    var difficultyText = new createjs.Text("Current difficulty: " + width + " x " + height + " Maze", "bold 24px Arial", "#ef2128");
+    difficultyText.textBaseline = "middle";
+    difficultyText.textAlign = "center";
+    difficultyText.x = canvas.width / 2;
+    difficultyText.y = livesText.y + 50;
+  
+    endMenu.addElement(livesText);
+    endMenu.addElement(difficultyText);
+
     stage.update();
 }
 
 function gameWin() {
-
     clearInterval(timerRefreshIntervalID);
     createjs.Sound.stop("game_soundtrack1");
     createjs.Sound.play("game_over");
     winMenu = new Menu();
+
     var winText = new createjs.Text("MISSION ACCOMPLISHED", "bold 36px Arial", "white");
     winText.textBaseline = "middle";
     winText.textAlign = "center";
@@ -433,10 +459,9 @@ function gameWin() {
     }
     winMenu.setVisible(true);
 
-
-    var play_button = preloader.getResult("play_button")
-    var instructionsGroup = new ButtonGroup(play_button.width + 30, 30, "#21ba2b", 150);
-    instructionsGroup.addButton(play_button, "#21ba2b", handlePlayEvent);
+    var continue_button = preloader.getResult("continue");
+    var instructionsGroup = new ButtonGroup(continue_button.width + 30, 30, "#21ba2b", 150);
+    instructionsGroup.addButton(continue_button, "#21ba2b", handlePlayEvent);
     instructionsGroup.setScale(0.55);
     instructionsGroup.setXPosition(300);
     instructionsGroup.setYPosition(600);
@@ -456,6 +481,13 @@ function gameWin() {
     scoreText.x = canvas.width / 2;
     scoreText.y = canvas.height - 275;
     winMenu.addElement(scoreText);
+
+    var difficultyText = new createjs.Text("Current difficulty: " + width + " x " + height + " Maze", "bold 24px Arial", "#ef2128");
+    difficultyText.textBaseline = "middle";
+    difficultyText.textAlign = "center";
+    difficultyText.x = canvas.width / 2;
+    difficultyText.y = scoreText.y + 50;
+    winMenu.addElement(difficultyText);
     
     stage.update();
 }
