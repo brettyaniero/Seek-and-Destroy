@@ -79,13 +79,13 @@ function build_StoreMenu() {
     description3.x = 185;
     description3.y = 480;
 
-    scoreText = new createjs.Text("Score:" + score, "34px courier", "#2AF620");
+    scoreText = new createjs.Text("Score: " + score, "34px courier", "#2AF620");
     scoreText.textAlign = "left";
     scoreText.x = 20;
     scoreText.y = 630;
 
     storeMenu = new Menu();
-    //storeMenu.playMusic("menu_music");
+    storeMenu.playMusic("store_music");
     storeMenu.addElement(title_image);
     storeMenu.addElement(watch_image);
     storeMenu.addElement(arrow_image);

@@ -85,6 +85,7 @@ function handleKeyboardEvents() {
 
             if (hits <= 1) {
                 gameUI.removeElement(enemyTank);
+                createjs.Sound.play("explosion_sound");
                 
                 var spritesheet = new createjs.SpriteSheet(data);
 
@@ -96,7 +97,7 @@ function handleKeyboardEvents() {
                     gameUI.removeElement(exploding);
                     hits = 0;
                     handleWinEvent();
-                }, 1300);
+                }, 1225);
                 gameUI.removeElement(enemyTankMask);
             }
         }
@@ -187,6 +188,8 @@ function fireBullet() {
     bullet.mask = spotlight;
 
     bulletStream[bulletStream.length] = bullet;
+
+    createjs.Sound.play("cannon_sound");
 
     gameUI.addElement(bullet);
 }

@@ -39,12 +39,12 @@ var pathContainer;
 var startTime;
 var timerText;
 var timerRefreshIntervalID;
-var timePerLevel = 45;
+var timePerLevel = 30;
 var gameOverTextRefreshIntervalID;
 var endMenu;
 var winMenu;
 var score = 0;
-var lives = 2;
+var lives = 3;
 var seconds;
 
 var width;
@@ -73,7 +73,14 @@ function load() {
         { id: "bullet", src: "Assets/bullet.png" },
         { id: "explosion", src: "Assets/explosion.png" },
         { id: "menu_button", src: "Assets/menu.png" }, 
-        { id: "continue", src: "Assets/continue.png" }
+        { id: "continue", src: "Assets/continue.png" }, 
+        { id: "store_music", src: "Assets/store_music.mp3" }, 
+        { id: "instructions_music", src: "Assets/instructions_music.mp3"},
+        { id: "game_music", src: "Assets/game_music.mp3" }, 
+        { id: "game_over_music", src: "Assets/game_over.mp3" }, 
+        { id: "game_win_music", src: "Assets/game_win.mp3" }, 
+        { id: "cannon_sound", src: "Assets/cannon.mp3" },
+        { id: "explosion_sound", src: "Assets/explosion_sound.mp3" }, 
     ]);
 }
 
@@ -159,15 +166,24 @@ function build_Instructions() {
     var instructionsGroup = new ButtonGroup(play_button.width + 30, 30, "#21ba2b", 150);
     instructionsGroup.addButton(play_button, "#21ba2b", handlePlayEvent);
     instructionsGroup.setScale(0.55);
-    instructionsGroup.setXPosition(stage.canvas.width / 2);
+    instructionsGroup.setXPosition(300);
     instructionsGroup.setYPosition(600);
 
+    var store_button = preloader.getResult("store_button")
+    var storeGroup = new ButtonGroup(store_button.width + 30, 30, "#21ba2b", 150);
+    storeGroup.addButton(store_button, "#21ba2b", handleStoreEvent);
+    storeGroup.setScale(0.55);
+    storeGroup.setXPosition(700);
+    storeGroup.setYPosition(600);
+
     instructionsMenu = new Menu();
-    
-    //storeMenu.playMusic("menu_music");
+
+    instructionsMenu.playMusic("instructions_music");
+
     instructionsMenu.addElement(instruction1);
     instructionsMenu.addElement(title_image);
     instructionsMenu.addElement(instructionsGroup.getContainer());
+    instructionsMenu.addElement(storeGroup.getContainer());
     instructionsMenu.setVisible(true);
 }
 
@@ -292,8 +308,9 @@ function handlePlayEvent() {
     background.mask = spotlight;
     enemyTank.mask = spotlight;
 
+    gameUI.playMusic("game_music");
+
     gameUI.setVisible(true);
-    //endMenu.setVisible(false);
     currentGameState = GameStates.GAME;
     startTimer(timePerLevel);
 }
@@ -305,7 +322,13 @@ function handleInstructionsEvent() {
 }
 
 function handleStoreEvent() {
-    startMenu.setVisible(false);
+    if (currentGameState === GameStates.INSTRUCTIONS) {
+        instructionsMenu.setVisible(false);
+    }
+    else if (currentGameState === GameStates.MAIN_MENU) {
+        startMenu.setVisible(false);
+    }
+
     currentGameState = GameStates.STORE;
     build_StoreMenu();
 }
@@ -315,7 +338,7 @@ function handleGameOverEvent() {
 
     lives--;
 
-    if (lives < 0) {
+    if (lives === 0) {
         lives = 3;
         score = 0;
         TANK_SPEED = 2;
@@ -370,7 +393,8 @@ function startTimer(duration) {
 
 function gameOver() {
     endMenu = new Menu();
-    var gameOverText = new createjs.Text("GAME OVER", "bold 36px Arial", "white");
+    endMenu.playMusic("game_over_music");
+    var gameOverText = new createjs.Text("GAME OVER", "bold 36px Arial", "#ef2128");
     gameOverText.textBaseline = "middle";
     gameOverText.textAlign = "center";
     gameOverText.x = canvas.width / 2;
@@ -420,7 +444,7 @@ function gameOver() {
     livesText.x = canvas.width / 2;
     livesText.y = scoreText.y + 50;
 
-    var difficultyText = new createjs.Text("Current difficulty: " + width + " x " + height + " Maze", "bold 24px Arial", "#ef2128");
+    var difficultyText = new createjs.Text("Current difficulty: " + width + " x " + height + " Maze", "bold 24px Arial", "white");
     difficultyText.textBaseline = "middle";
     difficultyText.textAlign = "center";
     difficultyText.x = canvas.width / 2;
@@ -438,7 +462,9 @@ function gameWin() {
     createjs.Sound.play("game_over");
     winMenu = new Menu();
 
-    var winText = new createjs.Text("MISSION ACCOMPLISHED", "bold 36px Arial", "white");
+    winMenu.playMusic("game_win_music");
+
+    var winText = new createjs.Text("MISSION ACCOMPLISHED", "bold 36px Arial", "#53f442");
     winText.textBaseline = "middle";
     winText.textAlign = "center";
     winText.x = canvas.width / 2;
@@ -482,7 +508,7 @@ function gameWin() {
     scoreText.y = canvas.height - 275;
     winMenu.addElement(scoreText);
 
-    var difficultyText = new createjs.Text("Current difficulty: " + width + " x " + height + " Maze", "bold 24px Arial", "#ef2128");
+    var difficultyText = new createjs.Text("Current difficulty: " + width + " x " + height + " Maze", "bold 24px Arial", "white");
     difficultyText.textBaseline = "middle";
     difficultyText.textAlign = "center";
     difficultyText.x = canvas.width / 2;
