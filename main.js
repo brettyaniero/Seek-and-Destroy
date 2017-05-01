@@ -44,6 +44,8 @@ var gameOverTextRefreshIntervalID;
 var endMenu;
 var winMenu;
 var score = 0;
+var highScoreRow;
+var highScoreColumn;
 var lives = 3;
 var seconds;
 
@@ -95,6 +97,8 @@ function init() {
     spotlightRadius = 120; 
     width = 6;
     height = 5;
+    highScoreRow = 6;
+    highScoreColumn = 5;
 
     window.onkeydown = handleKeyDown;
     window.onkeyup = handleKeyUp;
@@ -361,6 +365,11 @@ function handleWinEvent() {
     score += 1;
     width += 1;
     height += 1;
+
+    if (width > highScoreRow)
+        highScoreRow = width;
+    if (height > highScoreColumn)
+        highScoreColumn = height;
     
     gameWin();
 }
@@ -446,16 +455,23 @@ function gameOver() {
     livesText.textBaseline = "middle";
     livesText.textAlign = "center";
     livesText.x = canvas.width / 2;
-    livesText.y = scoreText.y + 50;
+    livesText.y = scoreText.y + 40;
 
     var difficultyText = new createjs.Text("Current difficulty: " + width + " x " + height + " Maze", "bold 24px Arial", "white");
     difficultyText.textBaseline = "middle";
     difficultyText.textAlign = "center";
     difficultyText.x = canvas.width / 2;
-    difficultyText.y = livesText.y + 50;
+    difficultyText.y = livesText.y + 40;
+
+    var highScoreText = new createjs.Text("Best: " + highScoreRow + " x " + highScoreColumn + " Maze", "bold 24px Arial", "white");
+    highScoreText.textBaseline = "middle";
+    highScoreText.textAlign = "center";
+    highScoreText.x = canvas.width / 2;
+    highScoreText.y = difficultyText.y + 40;
   
     endMenu.addElement(livesText);
     endMenu.addElement(difficultyText);
+    endMenu.addElement(highScoreText);
 
     stage.update();
 }
@@ -518,6 +534,13 @@ function gameWin() {
     difficultyText.x = canvas.width / 2;
     difficultyText.y = scoreText.y + 50;
     winMenu.addElement(difficultyText);
+
+    var highScoreText = new createjs.Text("Best: " + highScoreRow + " x " + highScoreColumn + " Maze", "bold 24px Arial", "white");
+    highScoreText.textBaseline = "middle";
+    highScoreText.textAlign = "center";
+    highScoreText.x = canvas.width / 2;
+    highScoreText.y = difficultyText.y + 50;
+    winMenu.addElement(highScoreText);
     
     stage.update();
 }
